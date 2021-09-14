@@ -1,0 +1,26 @@
+[package]
+authors = ["AMvDev <amv-dev@protonmail.com>"]
+description = "Autoincrement wrapper for different purposes"
+name = "autoincrement"
+version = "1.0.0"
+edition = "2018"
+license = "Apache-2.0"
+readme = "README.md"
+keywords = ["autoincrement", "id", "generator"]
+categoris = ["data-structures", "concurrency"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+autoincrement_derive = { path = "autoincrement_derive", optional = true }
+serde = { version = "1", features = ["derive"], optional = true }
+
+[dev-dependencies]
+autoincrement_derive = { path = "autoincrement_derive" }
+
+[features]
+default = ["sync", "async", "derive"]
+full = ["sync", "async", "derive", "serde"]
+derive = ["autoincrement_derive"]
+sync = []
+async = []
