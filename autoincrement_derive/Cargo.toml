@@ -1,8 +1,12 @@
 [package]
 name = "autoincrement_derive"
+description = "Derive macros for `autoincrement` crate"
 version = "1.0.0"
 edition = "2018"
 categories = ["accessibility"]
+include = ["src/**/*.rs", "LICENSE"]
+repository = "https://github.com/amv-dev/autoincrement"
+license = "Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

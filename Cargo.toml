@@ -9,11 +9,12 @@ readme = "README.md"
 keywords = ["autoincrement", "id", "generator"]
 categoris = ["data-structures", "concurrency"]
 repository = "https://github.com/amv-dev/autoincrement"
+include = ["src/**/*.rs", "README.md", "LICENSE"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-autoincrement_derive = { path = "autoincrement_derive", optional = true }
+autoincrement_derive = { version = "1", path = "autoincrement_derive", optional = true }
 serde = { version = "1", features = ["derive"], optional = true }
 
 [dev-dependencies]
