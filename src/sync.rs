@@ -18,6 +18,12 @@ impl<T: Incremental> AutoIncrement<T> {
     }
 }
 
+impl<T: Clone> AutoIncrement<T> {
+    pub fn current(&self) -> T {
+        self.0.clone()
+    }
+}
+
 /// Trait for implementing over non-thread-safe incremental types
 pub trait Incremental: Sized {
     fn initial() -> Self;
@@ -48,65 +54,80 @@ mod tests {
     #[test]
     #[cfg(feature = "sync")]
     fn test_sync_u8() {
-        #[derive(Incremental, Debug, PartialEq, Eq)]
+        #[derive(Incremental, Debug, PartialEq, Eq, Clone)]
         struct MyID(u8);
 
         let mut counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 
     #[test]
     #[cfg(feature = "sync")]
     fn test_sync_u16() {
-        #[derive(Incremental, Debug, PartialEq, Eq)]
+        #[derive(Incremental, Debug, PartialEq, Eq, Clone)]
         struct MyID(u16);
 
         let mut counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 
     #[test]
     #[cfg(feature = "sync")]
     fn test_sync_u32() {
-        #[derive(Incremental, Debug, PartialEq, Eq)]
+        #[derive(Incremental, Debug, PartialEq, Eq, Clone)]
         struct MyID(u32);
 
         let mut counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 
     #[test]
     #[cfg(feature = "sync")]
     fn test_sync_u64() {
-        #[derive(Incremental, Debug, PartialEq, Eq)]
+        #[derive(Incremental, Debug, PartialEq, Eq, Clone)]
         struct MyID(u64);
 
         let mut counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 
     #[test]
     #[cfg(feature = "sync")]
     fn test_sync_usize() {
-        #[derive(Incremental, Debug, PartialEq, Eq)]
+        #[derive(Incremental, Debug, PartialEq, Eq, Clone)]
         struct MyID(usize);
 
         let mut counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 }

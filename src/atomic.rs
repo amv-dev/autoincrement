@@ -17,6 +17,10 @@ impl<T: AsyncIncremental> AsyncIncrement<T> {
     pub fn init_with(initial_value: T) -> Self {
         Self(AsyncIncremental::into_atomic(initial_value))
     }
+
+    pub fn current(&self) -> T {
+        AsyncIncremental::from_inner(Atomic::current(&self.0))
+    }
 }
 
 /// Trait for implementing over thread-safe incremental types
@@ -28,6 +32,8 @@ pub trait AsyncIncremental: Sized {
     fn get_next(atomic: &Self::Atomic) -> Self;
 
     fn into_atomic(value: Self) -> Self::Atomic;
+
+    fn from_inner(inner: <Self::Atomic as Atomic>::Inner) -> Self;
 
     fn init() -> AsyncIncrement<Self> {
         Self::init_with(Self::initial())
@@ -49,6 +55,8 @@ pub trait Atomic: Send + Sync + std::fmt::Debug {
     fn new(initial_value: Self::Inner) -> Self;
 
     fn next(&self, step: Self::Inner) -> Self::Inner;
+
+    fn current(&self) -> Self::Inner;
 }
 
 macro_rules! impl_atomic {
@@ -62,6 +70,10 @@ macro_rules! impl_atomic {
 
             fn next(&self, step: Self::Inner) -> Self::Inner {
                 self.fetch_add(step, std::sync::atomic::Ordering::SeqCst)
+            }
+
+            fn current(&self) -> Self::Inner {
+                self.load(std::sync::atomic::Ordering::SeqCst)
             }
         }
     );
@@ -97,8 +109,11 @@ mod tests {
 
         let counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 
@@ -110,8 +125,11 @@ mod tests {
 
         let counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 
@@ -123,8 +141,11 @@ mod tests {
 
         let counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 
@@ -136,8 +157,11 @@ mod tests {
 
         let counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 
@@ -149,8 +173,11 @@ mod tests {
 
         let counter = MyID::init();
 
+        assert_eq!(counter.current(), MyID(1));
         assert_eq!(counter.pull(), MyID(1));
+        assert_eq!(counter.current(), MyID(2));
         assert_eq!(counter.pull(), MyID(2));
+        assert_eq!(counter.current(), MyID(3));
         assert_eq!(counter.pull(), MyID(3));
     }
 }

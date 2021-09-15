@@ -80,7 +80,7 @@ fn impl_async_incremental(
             type Atomic = std::sync::atomic::#atomic;
 
             fn initial() -> Self {
-                Self(#initial_value as #inner_type)
+                Self::from_inner(#initial_value as #inner_type)
             }
 
             fn get_next(atomic: &Self::Atomic) -> Self {
@@ -90,6 +90,10 @@ fn impl_async_incremental(
             fn into_atomic(value: Self) -> Self::Atomic {
                 let Self(inner) = value;
                 Self::Atomic::new(inner)
+            }
+            
+            fn from_inner(inner: <Self::Atomic as autoincrement::Atomic>::Inner) -> Self {
+                Self(inner)
             }
         }
 

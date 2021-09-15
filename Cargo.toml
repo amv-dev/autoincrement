@@ -2,7 +2,7 @@
 authors = ["AMvDev <amv-dev@protonmail.com>"]
 description = "Autoincrement wrapper for different purposes"
 name = "autoincrement"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2018"
 license = "Apache-2.0"
 readme = "README.md"
@@ -14,7 +14,7 @@ include = ["src/**/*.rs", "README.md", "LICENSE"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-autoincrement_derive = { version = "1", path = "autoincrement_derive", optional = true }
+autoincrement_derive = { version = "=1.0.1", path = "autoincrement_derive", optional = true }
 serde = { version = "1", features = ["derive"], optional = true }
 
 [dev-dependencies]
