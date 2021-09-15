@@ -7,7 +7,7 @@ edition = "2018"
 license = "Apache-2.0"
 readme = "README.md"
 keywords = ["autoincrement", "id", "generator"]
-categoris = ["data-structures", "concurrency"]
+categories = ["data-structures", "concurrency"]
 repository = "https://github.com/amv-dev/autoincrement"
 include = ["src/**/*.rs", "README.md", "LICENSE"]
 
