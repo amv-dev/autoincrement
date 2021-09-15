@@ -3,7 +3,7 @@ use std::sync::atomic::{AtomicU16, AtomicU32, AtomicU64, AtomicU8, AtomicUsize};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-/// Threadsafe container for keeping autoincrement counter
+/// Thread-safe container for keeping autoincrement counter
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct AsyncIncrement<T: AsyncIncremental>(T::Atomic);
@@ -19,7 +19,7 @@ impl<T: AsyncIncremental> AsyncIncrement<T> {
     }
 }
 
-/// Trait for implementing over threadsafe incrementable types
+/// Trait for implementing over thread-safe incremental types
 pub trait AsyncIncremental: Sized {
     type Atomic: Atomic;
 

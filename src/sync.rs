@@ -1,7 +1,7 @@
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-/// Non-threadsafe container for keeping autoincrement counter
+/// Non-thread-safe container for keeping autoincrement counter
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct AutoIncrement<T>(T);
@@ -18,7 +18,7 @@ impl<T: Incremental> AutoIncrement<T> {
     }
 }
 
-/// Trait for implementing over non-threadsafe incrementable types
+/// Trait for implementing over non-thread-safe incremental types
 pub trait Incremental: Sized {
     fn initial() -> Self;
 
